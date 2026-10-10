@@ -1,0 +1,35 @@
+@host = http://localhost:5152
+
+### Get all clients (exp. 200)
+GET {{host}}/api/clients
+
+### Get client by id (exp. 200)
+GET {{host}}/api/clients/1
+
+### Create client (exp. 201 + Location)
+POST {{host}}/api/clients
+Content-Type: application/json
+
+{
+  "fullName": "Шевченко Марія Сергіївна",
+  "email": "maria@example.com",
+  "phone": "+380931234567",
+  "city": "Одеса"
+}
+
+### Update client (exp. 204)
+PUT {{host}}/api/clients/1
+Content-Type: application/json
+
+{
+  "fullName": "Петренко Олена Іванівна",
+  "email": "olena.new@example.com",
+  "phone": "+380501112299",
+  "city": "Харків"
+}
+
+### Delete client (exp. 204)
+DELETE {{host}}/api/clients/2
+
+### Non-existent client (exp. 404)
+GET {{host}}/api/clients/9999
