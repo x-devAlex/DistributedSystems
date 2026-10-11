@@ -1,0 +1,75 @@
+﻿@host = http://localhost:5152
+
+### 1. Collection with paging, filter and sorting (v1) (exp. 200)
+GET {{host}}/api/v1/clients?city=Київ&sort=-id&page=1&pageSize=10
+
+### 2. Client by id (v1) (exp. 200)
+GET {{host}}/api/v1/clients/1
+
+### 3. Same client in v2 (exp. 200)
+GET {{host}}/api/v2/clients/1
+
+### 4. Request without version (exp. 404)
+GET {{host}}/api/clients/1
+
+### 5. Create valid client (exp. 201)
+POST {{host}}/api/v1/clients
+Content-Type: application/json
+
+{
+  "fullName": "Шевченко Марія Сергіївна",
+  "email": "maria@example.com",
+  "phone": "+380931234567",
+  "city": "Одеса"
+}
+
+### 6. Collection sorted by id desc after create (exp. 200)
+GET {{host}}/api/v1/clients?sort=-id&page=1&pageSize=10
+
+### 7. Validation error (exp. 400)
+POST {{host}}/api/v1/clients
+Content-Type: application/json
+
+{
+  "fullName": "",
+  "email": "not-an-email",
+  "phone": "abc",
+  "city": ""
+}
+
+### 8. Update client (exp. 204)
+PUT {{host}}/api/v1/clients/1
+Content-Type: application/json
+
+{
+  "fullName": "Петренко Олена Іванівна",
+  "email": "olena.new@example.com",
+  "phone": "+380501112299",
+  "city": "Харків"
+}
+
+### 9. Delete client (exp. 204)
+DELETE {{host}}/api/v1/clients/2
+
+### 10. Non-existent client v1 (exp. 404)
+GET {{host}}/api/v1/clients/9999
+
+### 11. Non-existent client v2 (exp. 404)
+GET {{host}}/api/v2/clients/9999
+
+### 12. Update non-existent client (exp. 404)
+PUT {{host}}/api/v1/clients/9999
+Content-Type: application/json
+
+{
+  "fullName": "Тест Тест Тест",
+  "email": "test@example.com",
+  "phone": "+380500000000",
+  "city": "Київ"
+}
+
+### 13. Delete non-existent client (exp. 404)
+DELETE {{host}}/api/v1/clients/9999
+
+### 14. Final check: collection after update and delete (exp. 200)
+GET {{host}}/api/v1/clients?sort=-id&page=1&pageSize=10

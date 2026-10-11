@@ -7,7 +7,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.12"/>
+        <PackageReference Include="Asp.Versioning.Mvc" Version="10.2.1" />
+        <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="10.2.1" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.12" />
     </ItemGroup>
 
 </Project>
