@@ -1,0 +1,43 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "ClientGrpcService";
+
+package clients;
+
+import "google/protobuf/empty.proto";
+
+service ClientService {
+  rpc ListClients (google.protobuf.Empty) returns (ListClientsReply);
+  rpc GetClient (ClientId) returns (ClientReply);
+  rpc CreateClient (CreateClientRequest) returns (ClientReply);
+  rpc UpdateClient (UpdateClientRequest) returns (ClientReply);
+  rpc DeleteClient (ClientId) returns (ClientReply);
+  rpc StreamClients (google.protobuf.Empty) returns (stream ClientReply);
+}
+
+message ClientId { int32 id = 1; }
+
+message CreateClientRequest {
+  string full_name = 1;
+  string email = 2;
+  string phone = 3;
+  string city = 4;
+}
+
+message UpdateClientRequest {
+  int32 id = 1;
+  string full_name = 2;
+  string email = 3;
+  string phone = 4;
+  string city = 5;
+}
+
+message ClientReply {
+  int32 id = 1;
+  string full_name = 2;
+  string email = 3;
+  string phone = 4;
+  string city = 5;
+}
+
+message ListClientsReply { repeated ClientReply clients = 1; }
