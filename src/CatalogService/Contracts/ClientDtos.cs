@@ -2,9 +2,6 @@
 
 namespace CatalogService.Contracts;
 
-// DTO 1
-public record ClientDto(int Id, string FullName, string Email, string Phone, string City);
-
 // DTO 2
 public record ClientDtoV2(int Id, string LastName, string FirstName, string Email, string Phone, string City);
 

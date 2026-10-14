@@ -3,6 +3,7 @@ using CatalogService.Contracts;
 using CatalogService.Data;
 using CatalogService.Models;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Contracts;
 
 namespace CatalogService.Controllers;
 

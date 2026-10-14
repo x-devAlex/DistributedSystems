@@ -1,4 +1,5 @@
 ﻿using CatalogService.Models;
+using Shared.Contracts;
 
 namespace CatalogService.Contracts;
 

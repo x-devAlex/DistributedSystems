@@ -2,5 +2,3 @@
 
 GET {{CatalogService_HostAddress}}/weatherforecast/
 Accept: application/json
-
-###
