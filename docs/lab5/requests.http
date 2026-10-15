@@ -1,0 +1,23 @@
+﻿@host = http://localhost:5152
+
+### 1. Register customer (exp. 201 + Location, event published)
+POST {{host}}/api/v1/clients
+Content-Type: application/json
+
+{
+  "fullName": "Коваленко Ірина Петрівна",
+  "email": "iryna@example.com",
+  "phone": "+380991112233",
+  "city": "Дніпро"
+}
+
+### 2. Register another customer (exp. 201 + Location, event published)
+POST {{host}}/api/v1/clients
+Content-Type: application/json
+
+{
+  "fullName": "Бондар Олег Васильович",
+  "email": "oleg@example.com",
+  "phone": "+380672223344",
+  "city": "Харків"
+}

@@ -4,6 +4,8 @@ using CatalogService.Data;
 using CatalogService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Contracts;
+using MassTransit;
+using Shared.Contracts.Events;
 
 namespace CatalogService.Controllers;
 
@@ -11,7 +13,7 @@ namespace CatalogService.Controllers;
 [ApiVersion("1.0")]
 [ApiVersion("2.0")]
 [Route("api/v{version:apiVersion}/clients")]
-public class ClientsController(ClientRepository repo) : ControllerBase
+public class ClientsController(ClientRepository repo, IPublishEndpoint publish) : ControllerBase
 {
     // GET api/v1/clients?city=Київ&sort=-id&page=1&pageSize=10
     [HttpGet]
@@ -38,17 +40,21 @@ public class ClientsController(ClientRepository repo) : ControllerBase
                 statusCode: StatusCodes.Status404NotFound);
         return Ok(ClientMapping.ToDto(client));
     }
-
+    
     // POST api/v1/clients
     [HttpPost]
     [MapToApiVersion("1.0")]
-    public ActionResult<ClientDto> Create(CreateClientRequest request)
+    public async Task<ActionResult<ClientDto>> Create(CreateClientRequest request)
     {
         var created = repo.Add(new Client
         {
             FullName = request.FullName, Email = request.Email,
             Phone = request.Phone, City = request.City
         });
+        
+        await publish.Publish(new CustomerRegistered(
+            created.Id, created.FullName, created.Email, created.City));
+
         return CreatedAtAction(nameof(GetById), new { version = "1.0", id = created.Id },
             ClientMapping.ToDto(created));
     }
