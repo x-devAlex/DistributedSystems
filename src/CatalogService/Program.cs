@@ -26,6 +26,10 @@ builder.Services.AddApiVersioning(options =>
 
 builder.Services.AddMassTransit(x =>
 {
+    x.AddConsumer<CatalogService.Consumers.CreateProfileConsumer>();
+    x.AddConsumer<CatalogService.Consumers.ActivateProfileConsumer>();
+    x.AddConsumer<CatalogService.Consumers.DeleteProfileConsumer>();
+
     x.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host("localhost", "/", h =>
@@ -33,7 +37,13 @@ builder.Services.AddMassTransit(x =>
             h.Username("guest");
             h.Password("guest");
         });
-        cfg.ConfigureEndpoints(context);
+        
+        cfg.ReceiveEndpoint("create-profile", e =>
+            e.ConfigureConsumer<CatalogService.Consumers.CreateProfileConsumer>(context));
+        cfg.ReceiveEndpoint("activate-profile", e =>
+            e.ConfigureConsumer<CatalogService.Consumers.ActivateProfileConsumer>(context));
+        cfg.ReceiveEndpoint("delete-profile", e =>
+            e.ConfigureConsumer<CatalogService.Consumers.DeleteProfileConsumer>(context));
     });
 });
 

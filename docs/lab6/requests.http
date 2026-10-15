@@ -1,0 +1,27 @@
+﻿@saga = http://localhost:5220
+@catalog = http://localhost:5152
+
+### 1. Happy path: registration completes (exp. 202 Accepted)
+POST {{saga}}/api/registrations
+Content-Type: application/json
+
+{
+  "fullName": "Коваленко Ірина Петрівна",
+  "email": "iryna@example.com",
+  "phone": "+380991112233",
+  "city": "Дніпро"
+}
+
+### 2. Compensation path: activation fails, profile deleted (exp. 202 Accepted)
+POST {{saga}}/api/registrations
+Content-Type: application/json
+
+{
+  "fullName": "Тестов Тест Тестович",
+  "email": "test@fail.test",
+  "phone": "+380500000000",
+  "city": "Київ"
+}
+
+### 3. Check the list after both runs (happy client present, compensated client absent)
+GET {{catalog}}/api/v1/clients?sort=-id&page=1&pageSize=10
